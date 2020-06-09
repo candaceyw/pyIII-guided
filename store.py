@@ -1,3 +1,5 @@
+from category import Category
+
 
 class Store:
     # attributes
@@ -12,13 +14,43 @@ class Store:
 
     def __str__(self):
         # return a string representing the store
-        return f'Welcome to {self.name}: Here are the categories: {self.categories}'
+        output = f'Welcome to {self.name}!'
+        i = 1
+        for category in self.categories:
+            output += f'\n {i}. {category.name}'
+            i += 1
+        return output
+
+    def __repr__(self):
+        # also returns a string
+        return f'self.name = {self.name} ; self.categores = {self.categories}'
 
 
-sports_store = Store("Gander Mountain", ["running", "baseball", 'basketball'])
+running_category = Category('Running', "All your running needs", [])
+baseball_category = Category('Baseball', 'Blue Jays fans only', [])
+basketball_category = Category("Basketball", "Indoor and outdoor products", [])
+football_category = Category("Football", "The american kind", [])
 
+sports_store = Store("Gander Mountain", [running_category, baseball_category, basketball_category, football_category])
 produce_store = Store('Trader Joe\'s', ['dairy', 'meat', 'bread', 'produce'])
+choice = -1
 
+# REPL <-- Read Evaluate Print Loop
 print(sports_store)
-print(produce_store)
-print(sports_store.name)
+print('Type q to quit')
+while True:
+    # READ
+    choice = input('Please choose a category (#): ')
+    try:
+        # Evaluate
+        if choice == 'q':
+            break
+        choice = int(choice) -1
+        if 0 <= choice < len(sports_store.categories):
+            chosen_category = sports_store.categories[choice]
+        # Print
+            print(chosen_category)
+        else:
+            print('The number is out of range')
+    except ValueError:
+        print("Please enter a valid number")
